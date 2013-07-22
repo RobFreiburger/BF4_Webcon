@@ -38,3 +38,9 @@ gem 'rails_12factor', '~> 0.0.0', group: [:production, :staging]
 
 # Heroku recommendation: using Unicorn as web server
 gem 'unicorn', '~> 4.6.0'
+
+# OpenID client for Steam
+gem "ruby-openid", "~> 2.2.3"
+
+# Twitter Bootstrap for design
+gem 'bootstrap-sass', '~> 2.3.2'

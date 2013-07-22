@@ -1,0 +1,2 @@
+module OpenidtestHelper
+end
