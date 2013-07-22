@@ -110,10 +110,8 @@ class OpenidtestController < ApplicationController
 
   def consumer
     if @consumer.nil?
-      dir = Pathname.new(RAILS_ROOT).join('db').join('cstore')
-      store = OpenID::Store::Filesystem.new(dir)
+      store = OpenID::Store::Memory.new
       @consumer = OpenID::Consumer.new(session, store)
     end
-    return @consumer
   end
 end
