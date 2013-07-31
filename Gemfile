@@ -44,3 +44,6 @@ gem "ruby-openid", "~> 2.2.3"
 
 # Twitter Bootstrap for design
 gem 'bootstrap-sass', '~> 2.3.2'
+
+# New relic for monitoring
+gem 'newrelic_rpm'
