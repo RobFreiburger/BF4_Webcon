@@ -127,7 +127,7 @@ DEPENDENCIES
   newrelic_rpm
   pg (~> 0.15.0)
   rails (= 4.0.0)
-  rails_12factor (~> 0.0.0)
+  rails_12factor
   ruby-openid (~> 2.2.3)
   sass-rails (~> 4.0.0)
   sdoc (~> 0.3.0)

@@ -34,7 +34,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 # Herkou requirement: logs sent via STDOUT
-gem 'rails_12factor', '~> 0.0.0', group: [:production, :staging]
+gem 'rails_12factor', group: [:production, :staging]
 
 # Heroku recommendation: using Unicorn as web server
 gem 'unicorn', '~> 4.6.0'
