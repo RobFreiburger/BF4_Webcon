@@ -46,4 +46,4 @@ gem "ruby-openid", "~> 2.2.3"
 gem 'bootstrap-sass', '~> 2.3.2'
 
 # New relic for monitoring
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', group: [:production, :staging]
