@@ -6,6 +6,11 @@ Bf4Webcon::Application.routes.draw do
   # root 'welcome#index'
   root 'index#index'
 
+  # Steam OpenID Authentication
+  resources :sessions, only: [:new, :create, :destroy]
+  match '/signin', to: 'sessions#new', via: :get
+  match '/signout', to: 'sessions#destroy', via: :delete
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
