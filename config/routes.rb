@@ -7,8 +7,8 @@ Bf4Webcon::Application.routes.draw do
   root 'index#index'
 
   # Steam OpenID Authentication
-  resources :sessions, only: [:new, :create, :destroy]
   match '/signin', to: 'sessions#new', via: :get
+  match '/signin_step2', to: 'sessions#create', via: :get
   match '/signout', to: 'sessions#destroy', via: :delete
 
   # Example of regular route:
