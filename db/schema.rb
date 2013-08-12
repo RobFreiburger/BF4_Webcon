@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 20130811201629) do
   add_index "servers", ["name"], name: "index_servers_on_name", unique: true
 
   create_table "users", id: false, force: true do |t|
-    t.integer  "steam_id",                   null: false
-    t.boolean  "is_admin",   default: false, null: false
+    t.decimal  "steam_id",   precision: 20, scale: 0,                 null: false
+    t.boolean  "is_admin",                            default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

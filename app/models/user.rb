@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
 	validates :steam_id, presence: true, uniqueness: true, 
 	numericality: { 
 		only_integer: true,
-		greater_than: 0 
+		greater_than: 0,
+		less_than: 2 ** 64
 	}
 
 	# Admin validation
