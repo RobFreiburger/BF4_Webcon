@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130811201629) do
+ActiveRecord::Schema.define(version: 20130812234033) do
 
   create_table "servers", force: true do |t|
     t.text     "name"
@@ -29,12 +29,14 @@ ActiveRecord::Schema.define(version: 20130811201629) do
   add_index "servers", ["name"], name: "index_servers_on_name", unique: true
 
   create_table "users", id: false, force: true do |t|
-    t.decimal  "steam_id",   precision: 20, scale: 0,                 null: false
-    t.boolean  "is_admin",                            default: false, null: false
+    t.decimal  "steam_id",       precision: 20, scale: 0,                 null: false
+    t.boolean  "is_admin",                                default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "remember_token"
   end
 
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
   add_index "users", ["steam_id"], name: "index_users_on_steam_id", unique: true
 
 end
