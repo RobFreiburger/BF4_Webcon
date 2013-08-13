@@ -1,0 +1,28 @@
+<div class="hero-unit">
+	<h1>Welcome to BFGoons!</h1>
+	<p>
+		<%= link_to(image_tag('sits_large_border.png', alt: 'Sign in through Steam', title: 'Sign in through Steam', class: 'pull-right'), signin_path) %>
+		Whitelist your Battlefield 4 soldier name and play on BFGoons servers!<br>
+		Get started by signing in through Steam. (<a href='#SteamFAQModal' data-toggle='modal'>I'm not giving you anything</a>)
+	</p>
+</div>
+<p># list servers here with battelog links</p>
+<div id='SteamFAQModal' class="modal hide fade">
+  <div class="modal-body">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	  <dl>
+  		<dt>Why do you want my Steam login?</dt>
+  		<dd>I don't. I only get confirmation you signed in with your Steam account. This is done by using <a href='http://openid.net/get-an-openid/individuals/' target='_blank'>OpenID</a>. Websites that let you sign in with your Google, Facebook, and/or Twitter account use the same thing.</dd>
+  		<dt>What confirmation do you get?</dt>
+  		<dd>After you sign in, Steam gives me your SteamID #. That's it.</dd>
+  		<dt>But you can steal my Steam account with that!</dt>
+  		<dd>No I can't. All I could possibly do is glean public information from your profile. I don't care about your Steam level.</dd>
+  		<dt>Why not just make me create an account here?</dt>
+  		<dd>I doubt you want to remember another username and password combo, and I don't want to bother dealing with forgotten login emails.</dd>
+  		<dt>Does my Steam profile need to be public?</dt>
+  		<dd>No. The previous system used Steam's Web API to determine your groups, which required goons to engage in social interaction. This time I'm going the antisocial route by verifying your SA Forums profile.</dd>
+  		<dt>I'm still not giving you anything.</dt>
+  		<dd>You are not required to use this site to play on BFGoons servers, but you won't be whitelisted until you check your privilege.</dd>
+		</dl>
+  </div>
+</div>

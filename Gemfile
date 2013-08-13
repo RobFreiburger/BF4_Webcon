@@ -5,7 +5,8 @@ ruby '2.0.0'
 gem 'rails', '4.0.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.15.0'
+gem 'pg', '~> 0.15.0', group: [:production, :staging]
+gem 'sqlite3', '~> 1.3.7', group: [:development, :test]
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -31,7 +32,7 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
 
 # Herkou requirement: logs sent via STDOUT
 gem 'rails_12factor', group: [:production, :staging]
