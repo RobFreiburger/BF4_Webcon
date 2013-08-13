@@ -2,7 +2,7 @@ module SessionsHelper
 
 	def sign_in(user)
 		remember_token = User.new_remember_token
-		cookies.signed[:remember_token] = {
+		cookies[:remember_token] = {
 			value: remember_token,
 			expires: 30.days.from_now
 		}
