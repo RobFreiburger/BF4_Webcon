@@ -26,8 +26,6 @@ class SessionsController < ApplicationController
 			steam_id = oidresp.display_identifier.match(/\d+\z/).to_s.to_i
 			user = User.find_by(steam_id: steam_id)
 
-			debugger
-
 			# Create user if needed
 			if user.nil?
 				user = User.create(steam_id: steam_id)
