@@ -1,8 +1,10 @@
-require "openid"
+require 'openid'
 
 class SessionsController < ApplicationController
+  layout false
+
   def new
-    oidreq = OpenID::Consumer.begin('http://steamcommunity.com/openid')
+    oidreq = consumer.begin('http://steamcommunity.com/openid')
     realm = url_for action: 'create', only_path: false
     redirect_to oidreq.redirect_url(realm, realm)
   end
@@ -10,7 +12,7 @@ class SessionsController < ApplicationController
   def create
   	current_url = url_for action:'create', only_path: false
     parameters = params.permit!.delete_if { |k,v| !k.starts_with?('openid') }
-  	oidresp = OpenID::Consumer.complete(parameters, current_url)
+  	oidresp = consumer.complete(parameters, current_url)
 
     # Complete OpenID request
   	case oidresp.status
@@ -41,5 +43,15 @@ class SessionsController < ApplicationController
     sign_out
     flash[:alert] = "You're signed out."
     redirect_to root_path
+  end
+
+  private
+
+  def consumer
+    if @consumer.nil?
+      @consumer = OpenID::Consumer.new(session, nil)
+    end
+
+    @consumer
   end
 end
