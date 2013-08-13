@@ -13,21 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130812234033) do
 
-  create_table "servers", force: true do |t|
-    t.text     "name"
-    t.text     "description"
-    t.string   "battlelog_name"
-    t.string   "guid"
-    t.string   "ip_address"
-    t.integer  "rcon_port",      limit: 5
-    t.string   "rcon_password"
-    t.boolean  "allow_use",                default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "servers", ["name"], name: "index_servers_on_name", unique: true
-
   create_table "users", id: false, force: true do |t|
     t.decimal  "steam_id",       precision: 20, scale: 0,                 null: false
     t.boolean  "is_admin",                                default: false, null: false
