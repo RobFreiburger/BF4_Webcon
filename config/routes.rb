@@ -11,6 +11,10 @@ Bf4Webcon::Application.routes.draw do
   match '/signin_step2', to: 'sessions#create', via: :get
   match '/signout', to: 'sessions#destroy', via: :delete
 
+  # SA Forums account verification
+  match '/verify', to: 'verification#start', via: :get
+  match '/complete_verification', to: 'verification#complete', via: :post
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
