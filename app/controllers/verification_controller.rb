@@ -3,6 +3,7 @@ class VerificationController < ApplicationController
 	before_action :is_unverified
 
   def start
+  	@expected_token = current_user.verification_token
   end
 
   def complete

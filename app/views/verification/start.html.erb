@@ -1,2 +1,25 @@
-<h1>Verification#start</h1>
-<p>Find me in app/views/verification/start.html.erb</p>
+<h1>Verify Your SA Forums Account</h1>
+<p class='lead'>To be whitelisted, you must be this tall to ride:</p>
+<ul>
+	<li>You have an account on <a href='http://forums.somethingawful.com' target='_blank'>The Something Awful Forums</a>.</li>
+	<li>That account is older than 90 days.</li>
+	<li>You have enough IQ to follow these instructions.</li>
+</ul>
+
+<%= form_tag('/complete_verification') do %>
+	<h2>
+		1. <a href="http://forums.somethingawful.com/member.php?action=editprofile" target="_blank">Click this to edit your profile</a>.<br>
+		2. Copy and paste this gibberish into the Occupation field: <%= @expected_token.to_s %><br>
+		3. Right-click View Profile at the top and copy the link.<br>
+		<small>It's above your email address and below the User CP link.</small><br>
+		4. Paste that all over this field:<br>
+		<%= text_field_tag('profile_url', nil, { 
+			class: 'input-block-level',
+			placeholder: 'http://forums.somethingawful.com/member.php?action=getinfo&userid=555'
+		}) %><br>
+		5. Press the stupid Submit Modifications button.<br>
+		6. Press this big dumb blue button once:<br>
+		<%= submit_tag("I'm a manchild wanting to play video game", class: 'btn btn-large btn-block btn-primary') %>
+	</h2>
+
+<% end %>
