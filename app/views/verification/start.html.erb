@@ -1,25 +1,78 @@
 <h1>Verify Your SA Forums Account</h1>
-<p class='lead'>To be whitelisted, you must be this tall to ride:</p>
-<ul>
-	<li>You have an account on <a href='http://forums.somethingawful.com' target='_blank'>The Something Awful Forums</a>.</li>
-	<li>That account is older than 90 days.</li>
-	<li>You have enough IQ to follow these instructions.</li>
-</ul>
+<div class='row'>
+	<div class='span6 lead'>
+		To be whitelisted, you must be this tall to ride:
+	</div>
+	<div class='span6'>
+		<ul>
+			<li>You have an account on <a href='http://forums.somethingawful.com' target='_blank'>The Something Awful Forums</a>.</li>
+			<li>That account is older than 90 days.</li>
+			<li>You have enough IQ to follow these instructions.</li>
+		</ul>
+	</div>
+</div>
 
 <%= form_tag('/complete_verification') do %>
-	<h2>
-		1. <a href="http://forums.somethingawful.com/member.php?action=editprofile" target="_blank">Click this to edit your profile</a>.<br>
-		2. Copy and paste this gibberish into the Occupation field: <%= @expected_token.to_s %><br>
-		3. Right-click View Profile at the top and copy the link.<br>
-		<small>It's above your email address and below the User CP link.</small><br>
-		4. Paste that all over this field:<br>
-		<%= text_field_tag('profile_url', nil, { 
-			class: 'input-block-level',
-			placeholder: 'http://forums.somethingawful.com/member.php?action=getinfo&userid=555'
-		}) %><br>
-		5. Press the stupid Submit Modifications button.<br>
-		6. Press this big dumb blue button once:<br>
-		<%= submit_tag("I'm a manchild wanting to play video game", class: 'btn btn-large btn-block btn-primary') %>
-	</h2>
-
+	<table class='table'>
+		<!-- Header -->
+		<thead>
+			<th>#</th>
+			<th>On This Page</th>
+			<th>On Your Profile Page</th>
+		</thead>
+		<tbody>
+			<!-- Step 1 -->
+			<tr>
+				<td>1</td>
+				<td>
+					<a href="http://forums.somethingawful.com/member.php?action=editprofile" target="_blank">Click this to edit your profile</a>.
+				</td>
+				<td></td>
+			</tr>
+			<!-- Step 2 -->
+			<tr>
+				<td>2</td>
+				<td></td>
+				<td>
+					Copy and paste this into the Occupation field:<br>
+					<strong><%= @expected_token.to_s %></strong>
+				</td>
+			</tr>
+			<!-- Step 3 -->
+			<tr>
+				<td>3</td>
+				<td></td>
+				<td>
+					Right-click View Profile at the top and copy the link.<br>
+					<small>It's above your email address and below the User CP link.</small>
+				</td>
+			</tr>
+			<!-- Step 4 -->
+			<tr>
+				<td>4</td>
+				<td>
+					Paste what you copied in step 3 into this field:<br>
+					<%= text_field_tag('profile_url', nil, { 
+						class: 'input-block-level',
+						placeholder: 'http://forums.somethingawful.com/member.php?action=getinfo&userid=555'
+					}) %>
+				</td>
+				<td></td>
+			</tr>
+			<!-- Step 5 -->
+			<tr>
+				<td>5</td>
+				<td></td>
+				<td>Press the Submit Modifications button at the bottom.</td>
+			</tr>
+			<!-- Step 6 -->
+			<tr>
+				<td>6</td>
+				<td>
+					Press this button once: <%= submit_tag("I wanna play video game", class: 'btn btn-primary') %>
+				</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 <% end %>
