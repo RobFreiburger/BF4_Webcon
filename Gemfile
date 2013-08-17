@@ -48,3 +48,6 @@ gem 'bootstrap-sass', '~> 2.3.2'
 
 # New relic for monitoring
 gem 'newrelic_rpm', group: [:production, :staging]
+
+# Mechanize for SA profile scraping
+gem 'mechanize', '~> 2.7.2'

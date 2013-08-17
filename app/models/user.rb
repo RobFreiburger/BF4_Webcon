@@ -15,6 +15,11 @@ class User < ActiveRecord::Base
 	# SA Forums Profile Verification validation
 	before_create :create_verification_token
 	validates :is_verified, inclusion: { in: [true, false] }
+	validates :profile_id, uniqueness: true,
+	numericality: {
+		only_integer: true,
+		greater_than_or_equal_to: 0
+	}
 
 	# Remember token
 	before_create :create_remember_token
