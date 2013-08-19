@@ -1,7 +1,7 @@
 class VerificationController < ApplicationController
   before_action :signed_in_user
 	before_action :is_unverified
-  @account_age = 90.days.ago # Use .days rather than .months since days in month vary
+  @account_age = 90.days.ago.at_midnight # Use .days rather than .months since days in month vary
   @expected_token = current_user.verification_token.to_s
 
   def start
