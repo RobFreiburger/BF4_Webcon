@@ -6,7 +6,10 @@
 	<div class='span6'>
 		<ul>
 			<li>You have an account on <a href='http://forums.somethingawful.com' target='_blank'>The Something Awful Forums</a>.</li>
-			<li>That account is older than 90 days.</li>
+			<li>
+				That account is older than
+				<%= @account_age.strftime("%b %-d, %Y") %>.
+			</li>
 			<li>You have enough IQ to follow these instructions.</li>
 		</ul>
 	</div>
@@ -35,7 +38,7 @@
 				<td></td>
 				<td>
 					Copy and paste this into the Occupation field:<br>
-					<strong><%= @expected_token.to_s %></strong>
+					<strong><%= @expected_token %></strong>
 				</td>
 			</tr>
 			<!-- Step 3 -->
