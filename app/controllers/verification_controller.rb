@@ -4,12 +4,6 @@ class VerificationController < ApplicationController
   before_action :account_age
 
   def start
-    if current_user.verification_token.blank?
-      current_user.verification_token = User.encrypt(User.new_remember_token)
-      current_user.save
-    end
-
-    render
   end
 
   def complete
