@@ -1,8 +1,7 @@
 class VerificationController < ApplicationController
   before_action :signed_in_user
 	before_action :is_unverified
-  @account_age = 90.days.ago.at_midnight # Use .days rather than .months since days in month vary
-  @expected_token = current_user.verification_token.to_s
+  before_action :account_age
 
   def start
   end
@@ -39,6 +38,16 @@ class VerificationController < ApplicationController
   end
 
   private
+
+  # Work around for a Rubyism
+  def expected_token
+    @expected_token ||= current_user.verification_token.to_s
+  end
+
+  def account_age
+    # Use .days rather than .months since days in month vary
+    @account_age = 90.days.ago.at_midnight
+  end
 
   def is_unverified
   	redirect_to(root_url) if current_user.is_verified?
@@ -82,7 +91,7 @@ class VerificationController < ApplicationController
     results[:reg_date] = (reg_date < @account_age)
 
     # Find string
-    string = 'Occupation' + @expected_token
+    string = 'Occupation' + expected_token
     additional_info_text = page.search('dl.additional').inner_text
     results[:string] = (additional_info_text.match(string).to_s == string)
 
