@@ -11,14 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130812234033) do
+ActiveRecord::Schema.define(version: 20130817165629) do
 
   create_table "users", id: false, force: true do |t|
-    t.decimal  "steam_id",       precision: 20, scale: 0,                 null: false
-    t.boolean  "is_admin",                                default: false, null: false
+    t.decimal  "steam_id",           precision: 20, scale: 0,                 null: false
+    t.boolean  "is_admin",                                    default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
+    t.boolean  "is_verified",                                 default: false
+    t.string   "verification_token"
+    t.integer  "profile_id"
   end
 
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"

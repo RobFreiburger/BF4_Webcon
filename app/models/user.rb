@@ -12,6 +12,15 @@ class User < ActiveRecord::Base
 	# Admin validation
 	validates :is_admin, inclusion: { in: [true, false] }
 
+	# SA Forums Profile Verification validation
+	before_create :create_verification_token
+	validates :is_verified, inclusion: { in: [true, false] }
+	validates :profile_id, uniqueness: true,
+	numericality: {
+		only_integer: true,
+		greater_than_or_equal_to: 0
+	}
+
 	# Remember token
 	before_create :create_remember_token
 
@@ -27,6 +36,10 @@ class User < ActiveRecord::Base
 
 	def create_remember_token
 		self.remember_token = User.encrypt(User.new_remember_token)
+	end
+
+	def create_verification_token
+		self.verification_token = User.encrypt(User.new_remember_token)
 	end
 
 end
