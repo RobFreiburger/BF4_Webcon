@@ -18,10 +18,13 @@ class SessionsController < ApplicationController
 		case oidresp.status
 		when OpenID::Consumer::FAILURE
 			flash[:error] = "Verification failed: #{oidresp.message}"
+			redirect_to root_path
 		when OpenID::Consumer::SETUP_NEEDED
 			flash[:alert] = 'Immediate request failed - Setup Needed.'
+			redirect_to root_path
 		when OpenID::Consumer::CANCEL
 			flash[:alert] = 'OpenID transaction cancelled.'
+			redirect_to root_path
 		when OpenID::Consumer::SUCCESS
 			steam_id = oidresp.display_identifier.match(/\d+\z/).to_s.to_i
 			user = User.find_by(steam_id: steam_id)
@@ -31,12 +34,16 @@ class SessionsController < ApplicationController
 				user = User.create(steam_id: steam_id)
 			end
 
-			# Sign in and notify
+			# Sign in
 			sign_in(user)
-			flash[:success] = "You're signed in."
-		end
 
-		redirect_to root_path
+			# Redirect based on verification status
+			if user.is_verified?
+				redirect_to root_path
+			else
+				redirect_to verify_path
+			end
+		end
 	end
 
 	def destroy
