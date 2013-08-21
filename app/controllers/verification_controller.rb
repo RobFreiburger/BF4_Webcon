@@ -2,6 +2,7 @@ class VerificationController < ApplicationController
   before_action :signed_in_user
 	before_action :is_unverified
   before_action :account_age
+  before_action :expected_token
 
   def start
   end
