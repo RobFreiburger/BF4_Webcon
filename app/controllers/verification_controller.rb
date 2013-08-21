@@ -14,10 +14,17 @@ class VerificationController < ApplicationController
       flash[:error] = "Profile URL is't correct. Must look like http://forums.somethingawful.com/member.php?action=getinfo&userid=####"
       redirect_to action: 'start'
     else
-      results = verify_profile(profile_url)
+      profile_id = profile_url.match(/\d+\z/).to_s.to_i
+
+      unless User.find_by(profile_id: profile_id)
+        flash[:error] = "Profile is already verified."
+        redirect_to action: 'start'
+      end
+      
+      results = verify_profile(profile_id)
 
       unless results.values.include?(false)
-        current_user.profile_id = profile_url.match(/\d+\z/).to_s.to_i
+        current_user.profile_id = profile_id
         current_user.is_verified = true
         current_user.save
         flash[:success] = "You're now verified. Enjoy!"
@@ -53,7 +60,7 @@ class VerificationController < ApplicationController
   	redirect_to(root_url) if current_user.is_verified?
   end
 
-  def verify_profile(url)
+  def verify_profile(id)
     require 'mechanize'
     results = Hash.new
     agent = Mechanize.new
@@ -66,7 +73,8 @@ class VerificationController < ApplicationController
     end
 
     # Determine if login needed
-    page = agent.get(url)
+    profile_url = "http://forums.somethingawful.com/member.php?action=getinfo&userid=#{id}"
+    page = agent.get(profile_url)
     requires_login = false
     login_link = /\/account\.php\?action=loginform/
     page.links.each do |link|
@@ -80,7 +88,8 @@ class VerificationController < ApplicationController
       login_form = page.link_with(href: login_link).click.forms[1]
       login_form.username = ENV['SA_USERNAME']
       login_form.password = ENV['SA_PASSWORD']
-      page = agent.submit(login_form)
+      agent.submit(login_form)
+      page = agent.get(profile_url)
     end
 
     # Save cookie file
