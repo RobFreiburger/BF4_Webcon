@@ -13,13 +13,13 @@ class VerificationController < ApplicationController
 
     if !profile_url.match(regex_pattern)
       flash[:error] = "Profile URL is't correct. Must look like http://forums.somethingawful.com/member.php?action=getinfo&userid=####"
-      redirect_to action: 'start'
+      redirect_to(action: 'start') and return
     else
       profile_id = profile_url.match(/\d+\z/).to_s.to_i
 
-      unless User.find_by(profile_id: profile_id)
+      if User.find_by(profile_id: profile_id) != current_user
         flash[:error] = "Profile is already verified."
-        redirect_to action: 'start'
+        redirect_to(action: 'start') and return
       end
       
       results = verify_profile(profile_id)
@@ -29,7 +29,7 @@ class VerificationController < ApplicationController
         current_user.is_verified = true
         current_user.save
         flash[:success] = "You're now verified. Enjoy!"
-        redirect_to(root_url)
+        redirect_to(root_url) and return
       else
         # Display errors and redo
         unless results[:reg_date]
@@ -40,7 +40,7 @@ class VerificationController < ApplicationController
           flash[:error] += "Didn't find #{@expected_token} in Occupation field.<br>"
         end
 
-        redirect_to action: 'start'
+        redirect_to(action: 'start') and return
       end
     end
   end
@@ -65,7 +65,7 @@ class VerificationController < ApplicationController
     require 'mechanize'
     results = Hash.new
     agent = Mechanize.new
-    agent.user_agent = 'SA Profile Verifier by BFGoons.com'
+    agent.user_agent = 'SA Profile Verifier by kfs.xxx'
     cookie_file = 'sa_cookie.yaml'
 
     # Load cookie file if exists
