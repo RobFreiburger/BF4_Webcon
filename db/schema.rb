@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20130822233649) do
 
-  create_table "players", id: false, force: true do |t|
+  create_table "players", force: true do |t|
     t.string   "guid",       limit: 32
     t.string   "name"
     t.datetime "created_at"
@@ -24,15 +24,15 @@ ActiveRecord::Schema.define(version: 20130822233649) do
   add_index "players", ["name"], name: "index_players_on_name", unique: true
 
   create_table "users", id: false, force: true do |t|
-    t.decimal  "steam_id",                      precision: 20, scale: 0,                 null: false
-    t.boolean  "is_admin",                                               default: false, null: false
+    t.decimal  "steam_id",           precision: 20, scale: 0,                 null: false
+    t.boolean  "is_admin",                                    default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token"
-    t.boolean  "is_verified",                                            default: false
+    t.boolean  "is_verified",                                 default: false
     t.string   "verification_token"
     t.integer  "profile_id"
-    t.string   "player_id",          limit: 32
+    t.integer  "player_id"
   end
 
   add_index "users", ["player_id"], name: "index_users_on_player_id", unique: true
