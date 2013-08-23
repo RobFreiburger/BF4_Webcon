@@ -29,7 +29,7 @@ class VerificationController < ApplicationController
         current_user.is_verified = true
         current_user.save
         flash[:success] = "You're now verified. Enjoy!"
-        redirect_to(root_url) and return
+        redirect_to(new_player_path) and return
       else
         # Display errors and redo
         unless results[:reg_date]
