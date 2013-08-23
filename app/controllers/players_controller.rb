@@ -14,6 +14,8 @@ class PlayersController < ApplicationController
     @player = Player.new(player_params)
 
     if @player.save
+      current_user.player_id = @player
+      current_user.save
       flash[:success] = "Your Origin ID has been whitelisted."
       redirect_to root_path
     else
