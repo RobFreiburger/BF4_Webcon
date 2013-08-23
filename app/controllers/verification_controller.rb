@@ -17,7 +17,8 @@ class VerificationController < ApplicationController
     else
       profile_id = profile_url.match(/\d+\z/).to_s.to_i
 
-      if User.find_by(profile_id: profile_id) != current_user
+      already_verified = User.find_by(profile_id: profile_id)
+      if ((already_verified != current_user) and (!already_verified.nil?))
         flash[:error] = "Profile is already verified."
         redirect_to(action: 'start') and return
       end
