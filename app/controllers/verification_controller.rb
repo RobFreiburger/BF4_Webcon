@@ -58,7 +58,10 @@ class VerificationController < ApplicationController
   end
 
   def is_unverified
-  	redirect_to(root_url) if current_user.is_verified?
+    if current_user.is_verified?
+      flash[:info] = "You're already verified."
+      redirect_to(root_url)
+    end
   end
 
   def verify_profile(id)
