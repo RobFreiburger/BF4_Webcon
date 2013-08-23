@@ -34,11 +34,11 @@ class VerificationController < ApplicationController
       else
         # Display errors and redo
         unless results[:reg_date]
-          flash[:error] = "Account isn't older than #{@account_age.strftime("%b %-d, %Y")}.<br>"
+          flash[:error] = "Account isn't older than #{@account_age.strftime("%b %-d, %Y")}."
         end
 
         unless results[:string]
-          flash[:error] = "Didn't find #{@expected_token} in Occupation field.<br>"
+          flash[:error] = "Didn't find #{@expected_token} in Occupation field."
         end
 
         redirect_to(action: 'start') and return
