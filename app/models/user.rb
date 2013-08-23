@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	self.primary_key = 'steam_id'
+	belongs_to :player
 
 	# Steam ID validations
 	validates :steam_id, presence: true, uniqueness: true, 
