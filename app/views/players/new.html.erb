@@ -1,14 +1,25 @@
-<h1>Add your Origin ID</h1>
+<h1>Add Your Origin ID</h1>
 
 <div class='row'>
-	<div class='span6 offset3'>
-		<%= form_for(@player) do |f| %>
+	<div class='span8 offset2'>
+		<%= form_for(@player, html: { class: 'form-horizontal' }) do |f| %>
 			<%= render 'shared/error_messages', object: f.object %>
 
-			<%= f.label :name %>
-			<%= f.text_field :name %>
+			<div class="control-group">
+				<%= f.label(:name, 'Origin ID', class:'control-label') %>
+				<div class="controls">
+					<%= f.text_field :name %>
+					<span class='help-block'>
+						Origin ID is case-sensitive. It can only have alphanumeric and dash special characters ('-' or '_'). It must be 4-16 characters long.
+					</span>
+				</div>
+			</div>
 
-			<%= f.submit 'Whitelist Me', class: 'btn btn-large btn-primary' %>
+			<div class='control-group'>
+				<div class='controls'>
+					<%= f.submit 'Whitelist Me', class: 'btn btn-large btn-primary' %>
+				</div>
+			</div>
 		<% end %>
 	</div>
 </div>
