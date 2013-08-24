@@ -1,0 +1,24 @@
+<div class="hero-unit">
+	<%= image_tag('kfs_we_know_drama.png', alt: 'KFS: We Know Drama', title: 'KFS: We Know Drama') %>
+	<p>
+		<%= link_to(image_tag('sits_large_border.png', alt: 'Sign in through Steam', title: 'Sign in through Steam', class: 'pull-right'), signin_path) %>
+		Prepare for Battlefield 4 by whitelisting your Origin ID.<br>
+		Get started by signing in through Steam. (<a href='#SteamFAQModal' data-toggle='modal'>I don't trust this</a>)
+	</p>
+</div>
+<p>When Battlefield 4 is released, this site will have more features. Until then, all you can do is get whitelisted.</p>
+<div id='SteamFAQModal' class="modal hide fade">
+  <div class="modal-body">
+  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	  <dl>
+  		<dt>Why do I need a Steam account?</dt>
+  		<dd>Rather than create a separate login for just this site, Steam <a href='http://openid.net/get-an-openid/individuals/' target='_blank'>OpenID</a> lets you securely use your Steam login instead. Websites that let you use your Facebook and Twitter accounts do the same thing.</dd>
+      <dt>Why not use my Origin login?</dt>
+      <dd>Origin does not use OpenID.</dd>
+  		<dt>What info does KFS get from Steam OpenID?</dt>
+  		<dd>Your account's ID #. That's it.</dd>
+      <dt>I still don't trust this.</dt>
+  		<dd>You aren't required to use this site to play on KFS. If you know Ruby, <a href="https://github.com/RobFreiburger/BF4_Webcon/blob/develop/app/controllers/sessions_controller.rb" target="_blank">you can review the login code yourself.</a></dd>
+		</dl>
+  </div>
+</div>

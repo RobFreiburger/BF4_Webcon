@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kentucky Fried Server</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% if signed_in? %>
+		<%= render 'shared/navbar' %>
+	<% end %>
+	<div class="container">		
+		<% flash.each do |key, value| %>
+			<div class='row'>
+				<div class="span10 offset1 alert alert-<%= key %>">
+					<button type='button' class='close' data-dismiss='alert'>x</button>
+					<strong><%= value %></strong>
+				</div>
+			</div>
+		<% end %>
+		<%= yield %>
+	</div>
+	<%= debug(params) if Rails.env.development? %>
+
+	<div id="footer">
+		<div class="container">
+			<p class="pull-right muted">
+				KFS is a community-supported group of <a href='http://forums.somethingawful.com'>the Something Awful Forums</a>. 
+				<a href='https://github.com/RobFreiburger/BF4_Webcon'>This site is open source</a> and <a href='http://www.heroku.com'>hosted by Heroku</a>.
+			</p>
+		</div>
+	</div>
+</body>
+</html>
