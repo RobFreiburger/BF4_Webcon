@@ -39,6 +39,7 @@ gem 'rails_12factor', group: [:production, :staging]
 
 # Heroku recommendation: using Unicorn as web server
 gem 'unicorn', '~> 4.6.0'
+gem 'rack-timeout'
 
 # OpenID client for Steam
 gem "ruby-openid", "~> 2.2.3"
