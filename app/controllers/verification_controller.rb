@@ -105,9 +105,9 @@ class VerificationController < ApplicationController
     results[:reg_date] = (reg_date < @account_age)
 
     # Find string
-    string = 'Occupation' + expected_token
+    string = 'Occupation\s*' + expected_token
     additional_info_text = page.search('dl.additional').inner_text
-    results[:string] = (additional_info_text.match(string).to_s == string)
+    results[:string] = (additional_info_text.match(/#{string}/) != nil)
 
     results
   end
