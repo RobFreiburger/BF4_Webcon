@@ -52,3 +52,7 @@ gem 'newrelic_rpm', group: [:production, :staging]
 
 # Mechanize for SA profile scraping
 gem 'mechanize', '~> 2.7.2'
+group :production, :staging do
+	gem 'memcachier', '~> 0.0.2'
+	gem "dalli", "~> 2.6.4"
+end
