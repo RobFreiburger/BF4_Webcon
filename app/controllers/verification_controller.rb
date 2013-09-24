@@ -66,16 +66,16 @@ class VerificationController < ApplicationController
   end
 
   def verify_profile(id)
-    require 'mechanize'
+    require_relative '../../lib/WWW/Mechanize/cookie_jar.rb'
+    debugger
     results = Hash.new
     agent = Mechanize.new
     agent.user_agent = 'SA Profile Verifier by kfs.xxx'
-    cookie_file = 'sa_cookie.yaml'
+    memcache_key = 'sa_cookie'
 
-    # Load cookie file if exists
-    if File.exist?(cookie_file)
-      agent.cookie_jar.load(cookie_file)
-    end
+    # Load jar store if exists
+    memcache_value = Rails.cache.read(memcache_key)
+    agent.cookie_jar.load_str(memcache_value) unless memcache_value.blank?
 
     # Determine if login needed
     profile_url = "http://forums.somethingawful.com/member.php?action=getinfo&userid=#{id}"
@@ -90,6 +90,7 @@ class VerificationController < ApplicationController
 
     # Login if needed
     if requires_login
+      memcache_value = ''
       login_form = page.link_with(href: login_link).click.forms[1]
       login_form.username = ENV['SA_USERNAME']
       login_form.password = ENV['SA_PASSWORD']
@@ -97,8 +98,11 @@ class VerificationController < ApplicationController
       page = agent.get(profile_url)
     end
 
-    # Save cookie file
-    agent.cookie_jar.save(cookie_file, session: true)
+    # Save jar store
+    if memcache_value.blank?
+      memcache_value = agent.cookie_jar.save_str
+      Rails.cache.write(memcache_key, memcache_value)
+    end
 
     # Get registration date
     reg_date = Time.parse(page.search('dd.registered').inner_text)
