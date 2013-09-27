@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130822233649) do
+ActiveRecord::Schema.define(version: 20130927211337) do
 
   create_table "players", force: true do |t|
     t.string   "guid",       limit: 32
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 20130822233649) do
 
   add_index "players", ["guid"], name: "index_players_on_guid", unique: true
   add_index "players", ["name"], name: "index_players_on_name", unique: true
+
+  create_table "servers", force: true do |t|
+    t.string   "name"
+    t.string   "guid"
+    t.string   "ip_address"
+    t.integer  "rcon_port"
+    t.string   "rcon_pw"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "servers", ["name"], name: "index_servers_on_name", unique: true
 
   create_table "users", id: false, force: true do |t|
     t.decimal  "steam_id",           precision: 20, scale: 0,                 null: false
