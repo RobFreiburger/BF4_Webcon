@@ -5,7 +5,7 @@
 			<ul class='nav'>
 				<% if current_user.is_verified? %>
 					<li>
-						<%= link_to('Edit Origin ID', edit_player_path(current_user)) %>
+						<%= link_to('Edit Origin ID', edit_player_path(current_user.player)) %>
 					</li>
 				<% end %>
 			</ul>
