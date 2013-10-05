@@ -1,2 +1,25 @@
-<h1>Players#edit</h1>
-<p>Find me in app/views/players/edit.html.erb</p>
+<h1>Edit Your Origin ID</h1>
+
+<div class='row'>
+	<div class='span8 offset2'>
+		<%= form_for(@player, html: { class: 'form-horizontal' }) do |f| %>
+			<%= render 'shared/error_messages', object: f.object %>
+
+			<div class="control-group">
+				<%= f.label(:name, 'Origin ID', class:'control-label') %>
+				<div class="controls">
+					<%= f.text_field :name %>
+					<span class='help-block'>
+						Origin ID is case-sensitive. It can only have alphanumeric and dash special characters ('-' or '_'). It must be 4-16 characters long.
+					</span>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<%= f.submit 'Change ID', class: 'btn btn-large btn-primary' %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
