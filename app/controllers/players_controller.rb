@@ -26,10 +26,13 @@ class PlayersController < ApplicationController
   end
 
   def edit
+    @player = current_user.player
   end
 
   def update
-    if @player.update_parameters(player_params)
+    @player = current_user.player
+
+    if @player.update(player_params)
       flash[:success] = 'Your Origin ID has been updated.'
       redirect_to(root_path)
     else
