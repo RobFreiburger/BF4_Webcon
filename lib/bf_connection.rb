@@ -4,7 +4,7 @@ require_relative 'bf_protocol.rb'
 
 class BFConnection < EventMachine::Connection
 	include BFProtocol
-	attr_accessor :sequence, :blocks, :state
+	attr_accessor :sequence, :blocks, :state, :password
 	
 	def post_init
 		@sequence = 0
@@ -30,7 +30,7 @@ class BFConnection < EventMachine::Connection
 			when :preauth
 				puts "Authenticating"
 				self.state = :authenticating
-				self.send_data('login.hashed', generate_hashed_password([words[1]].pack('H*'), ENV['BFPASS']))
+				self.send_data('login.hashed', generate_hashed_password([words[1]].pack('H*'), self.password))
 			when :authenticating
 				puts "Awaiting authentication response"
 				if words[0] == "OK"
@@ -79,6 +79,3 @@ class BFConnection < EventMachine::Connection
 	end
 end
 
-EventMachine.run {
-	EventMachine.connect ENV['BFHOST'], ENV['BFPORT'], BFConnection
-}
