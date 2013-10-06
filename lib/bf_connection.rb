@@ -4,12 +4,13 @@ require_relative 'bf_protocol.rb'
 
 class BFConnection < EventMachine::Connection
 	include BFProtocol
-	attr_accessor :sequence, :blocks, :state, :password, :handlers
+	attr_accessor :sequence, :blocks, :state, :password, :handlers, :timers
 	
 	def post_init
 		@sequence = 0
 		@state = :preauth
 		@blocks = {}
+		@timers = {}
 		@receive_buffer = ''
 		
 		send_data('login.hashed')
@@ -46,7 +47,10 @@ class BFConnection < EventMachine::Connection
 
 	def dispatch_handler(is_from_server, is_response, sequence, words)
 		if is_response and self.blocks[sequence]
-			self.blocks[sequence].call(words)
+			block = self.blocks.delete(sequence)
+			timer = self.timers.delete(sequence)
+			timer.cancel
+			block.call(words)
 		elsif handler = handlers[words[0]]
 			handler[words]
 		elsif handlers[:default]
@@ -55,14 +59,26 @@ class BFConnection < EventMachine::Connection
 	end
 
 	def run_command(command, *parameters, &block)
-		self.blocks[sequence] = block
+		# Store a local reference so that the block below stores a specific number rather than
+		# some sort of reference to the accessor or some craziness
+		my_sequence = sequence
+		if block
+			self.blocks[my_sequence] = block
+			self.timers[my_sequence] = EventMachine::Timer.new(5) { method(:remove_block).call(my_sequence) }
+		end
 		self.send_data(command, *parameters)
+	end
+
+	def remove_block(sequence)
+		puts "Command ##{sequence} timed out"
+		self.blocks.delete(sequence)
+		self.timers.delete(sequence)
 	end
 
 	def send_data(*data)
 		packet = encode_request(sequence, *data)
 		if handlers && handlers[:debug]
-			handlers[:debug]['>', *data]
+			handlers[:debug]['>', sequence, *data]
 		end
 		self.sequence += 1
 		super packet
