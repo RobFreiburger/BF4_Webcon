@@ -23,6 +23,9 @@ class BFConnection < EventMachine::Connection
 			@receive_buffer = @receive_buffer[packet_size..@receive_buffer.size]
 			
 			is_from_server, is_response, sequence, words = decode_packet(packet)
+			if handlers && handlers[:debug]
+				handlers[:debug]['<', *words]
+			end
 			
 			case @state
 			when :preauth
@@ -42,11 +45,12 @@ class BFConnection < EventMachine::Connection
 	end
 
 	def dispatch_handler(is_from_server, is_response, sequence, words)
-		puts "#{is_from_server}, #{is_response}, #{sequence}, #{words}, #{state}"
 		if is_response and self.blocks[sequence]
 			self.blocks[sequence].call(words)
 		elsif handler = handlers[words[0]]
 			handler[words]
+		elsif handlers[:default]
+			handlers[:default][words]
 		end
 	end
 
@@ -57,6 +61,9 @@ class BFConnection < EventMachine::Connection
 
 	def send_data(*data)
 		packet = encode_request(sequence, *data)
+		if handlers && handlers[:debug]
+			handlers[:debug]['>', *data]
+		end
 		self.sequence += 1
 		super packet
 	end

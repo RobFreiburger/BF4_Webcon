@@ -1,3 +1,4 @@
+require 'pp'
 require_relative 'lib/bf_connection.rb'
 
 hosts = {
@@ -22,8 +23,14 @@ class BFClient
 			conn.password = host[:pass]
 			conn.handlers = {
 				'punkBuster.onMessage' => method(:punkbuster),
+				:default => method(:log),
+				:debug => method(:log),
 			}
 		}
+	end
+
+	def log(*arguments)
+		puts "LOG: #{arguments}"
 	end
 
 	def run(command, *arguments, &blk)
@@ -32,7 +39,7 @@ class BFClient
 
 	def punkbuster(words)
 		puts "Got punkbuster message!"
-		puts words
+		pp words
 	end
 
 end
@@ -43,6 +50,6 @@ EventMachine.run {
 	}
 	EventMachine::Timer.new(5) { clients[:test2].run('serverinfo') {|words|
 		puts "Got the result of 'serverinfo'"
-		puts words
+		pp words
 	}}
 }
