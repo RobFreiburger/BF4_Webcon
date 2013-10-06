@@ -9,23 +9,15 @@ module BFProtocol
 		[is_from_server, is_response, sequence, words]
 	end
 
-	def encode_client_request(*words)
-		if words[0].kind_of?(Integer)
-			encode_packet(false, false, words[0], words[1..words.size])
-		else
-			encode_packet(false, false, 0, words)
-		end
-	end
-
-	def encode_client_response(sequence, *words)
-		encode_packet(true, true, sequence, words)
+	def encode_request(sequence, *words)
+		encode_packet(false, false, sequence, words)
 	end
 
 	def contains_complete_packet(data = '')
 		if data.size < 8 || data.size < decode_int32(data[4...8])
 			false
 		else
-			true
+			decode_int32(data[4...8])
 		end
 	end
 

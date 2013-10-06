@@ -7,11 +7,12 @@ class BFConnection < EventMachine::Connection
 	attr_accessor :sequence, :blocks, :state
 	
 	def post_init
-		sequence = 0
+		@sequence = 0
 		@state = :preauth
-		blocks = {}
+		@blocks = {}
 		@receive_buffer = ''
 		
+		puts "Connection established"
 		send_data('login.hashed')
 	end
 
@@ -19,15 +20,27 @@ class BFConnection < EventMachine::Connection
 		puts "< data: #{data}"
 		@receive_buffer += data
 
-		while contains_complete_packet(@receive_buffer)
-			packet_size = decode_int32(@receive_buffer[4...8])
+		while packet_size = contains_complete_packet(@receive_buffer)
 			packet = @receive_buffer[0...packet_size]
 			@receive_buffer = @receive_buffer[packet_size..@receive_buffer.size]
 			
 			is_from_server, is_response, sequence, words = decode_packet(packet)
 			
-			puts "state: #{state}"
-			case @state # TODO: Figure out why state == nil
+			case @state
+			when :preauth
+				puts "Authenticating"
+				self.state = :authenticating
+				self.send_data('login.hashed', generate_hashed_password([words[1]].pack('H*'), ENV['BFPASS']))
+			when :authenticating
+				puts "Awaiting authentication response"
+				if words[0] == "OK"
+					puts "Authenticated"
+					self.state = :postauth
+					self.run_command('admin.eventsEnabled', ['true']) {self.state = :connected}
+				else
+					puts "Authentication failed"
+					close_connection
+				end
 			else
 				dispatch_handler(is_from_server, is_response, sequence, words)
 			end
@@ -35,11 +48,20 @@ class BFConnection < EventMachine::Connection
 	end
 
 	def dispatch_handler(is_from_server, is_response, sequence, words)
-		puts "#{is_from_server}, #{is_response}, #{sequence}, #{words}"
+		puts "#{is_from_server}, #{is_response}, #{sequence}, #{words}, #{state}"
+		if self.blocks[sequence]
+			self.blocks[sequence].call(words)
+		end
+	end
+
+	def run_command(command, parameters, &block)
+		self.blocks[sequence] = block
+		self.send_data(command, *parameters)
 	end
 
 	def send_data(*data)
-		packet = encode_client_request(*data)
+		packet = encode_request(sequence, *data)
+		self.sequence += 1
 		puts "> data: #{packet}"
 		super packet
 	end
@@ -58,5 +80,5 @@ class BFConnection < EventMachine::Connection
 end
 
 EventMachine.run {
-	EventMachine.connect '', 0, BFConnection
+	EventMachine.connect ENV['BFHOST'], ENV['BFPORT'], BFConnection
 }
