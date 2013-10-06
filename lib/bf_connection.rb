@@ -12,12 +12,10 @@ class BFConnection < EventMachine::Connection
 		@blocks = {}
 		@receive_buffer = ''
 		
-		puts "Connection established"
 		send_data('login.hashed')
 	end
 
 	def receive_data(data)
-		puts "< data: #{data}"
 		@receive_buffer += data
 
 		while packet_size = contains_complete_packet(@receive_buffer)
@@ -28,17 +26,13 @@ class BFConnection < EventMachine::Connection
 			
 			case @state
 			when :preauth
-				puts "Authenticating"
 				self.state = :authenticating
 				self.send_data('login.hashed', generate_hashed_password([words[1]].pack('H*'), self.password))
 			when :authenticating
-				puts "Awaiting authentication response"
 				if words[0] == "OK"
-					puts "Authenticated"
 					self.state = :postauth
 					self.run_command('admin.eventsEnabled', 'true') {self.state = :connected}
 				else
-					puts "Authentication failed"
 					close_connection
 				end
 			else
@@ -52,7 +46,6 @@ class BFConnection < EventMachine::Connection
 		if is_response and self.blocks[sequence]
 			self.blocks[sequence].call(words)
 		elsif handler = handlers[words[0]]
-			puts "Got a handler for #{words[0]}"
 			handler[words]
 		end
 	end
@@ -65,7 +58,6 @@ class BFConnection < EventMachine::Connection
 	def send_data(*data)
 		packet = encode_request(sequence, *data)
 		self.sequence += 1
-		puts "> data: #{packet}"
 		super packet
 	end
 	

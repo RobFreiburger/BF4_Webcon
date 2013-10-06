@@ -43,5 +43,6 @@ EventMachine.run {
 	}
 	EventMachine::Timer.new(5) { clients[:test2].run('serverinfo') {|words|
 		puts "Got the result of 'serverinfo'"
+		puts words
 	}}
 }
