@@ -36,7 +36,7 @@ class BFConnection < EventMachine::Connection
 				if words[0] == "OK"
 					puts "Authenticated"
 					self.state = :postauth
-					self.run_command('admin.eventsEnabled', ['true']) {self.state = :connected}
+					self.run_command('admin.eventsEnabled', 'true') {self.state = :connected}
 				else
 					puts "Authentication failed"
 					close_connection
@@ -49,12 +49,12 @@ class BFConnection < EventMachine::Connection
 
 	def dispatch_handler(is_from_server, is_response, sequence, words)
 		puts "#{is_from_server}, #{is_response}, #{sequence}, #{words}, #{state}"
-		if self.blocks[sequence]
+		if is_response and self.blocks[sequence]
 			self.blocks[sequence].call(words)
 		end
 	end
 
-	def run_command(command, parameters, &block)
+	def run_command(command, *parameters, &block)
 		self.blocks[sequence] = block
 		self.send_data(command, *parameters)
 	end
