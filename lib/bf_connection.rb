@@ -4,7 +4,7 @@ require_relative 'bf_protocol.rb'
 
 class BFConnection < EventMachine::Connection
 	include BFProtocol
-	attr_accessor :sequence, :blocks, :state, :password
+	attr_accessor :sequence, :blocks, :state, :password, :handlers
 	
 	def post_init
 		@sequence = 0
@@ -51,6 +51,9 @@ class BFConnection < EventMachine::Connection
 		puts "#{is_from_server}, #{is_response}, #{sequence}, #{words}, #{state}"
 		if is_response and self.blocks[sequence]
 			self.blocks[sequence].call(words)
+		elsif handler = handlers[words[0]]
+			puts "Got a handler for #{words[0]}"
+			handler[words]
 		end
 	end
 
