@@ -19,15 +19,17 @@ class Server < ActiveRecord::Base
 	end
 
 	def rcon_pw=(new_pw)
-		# Encrypt new_pw and store in DB
-		cipher = OpenSSL::Cipher::AES.new(256, :CBC)
-		cipher.encrypt
-		cipher.iv = ENV['SERVER_PW_IV']
-		cipher.key = ENV['SERVER_PW_KEY']
-		encrypted = cipher.update(new_pw) + cipher.final
-		write(:rcon_pw, encrypted)
+		if new_pw.is_a?(String) && new_pw.present?
+			# Encrypt new_pw and store in DB
+			cipher = OpenSSL::Cipher::AES.new(256, :CBC)
+			cipher.encrypt
+			cipher.iv = ENV['SERVER_PW_IV']
+			cipher.key = ENV['SERVER_PW_KEY']
+			encrypted = cipher.update(new_pw) + cipher.final
+			write(:rcon_pw, encrypted)
 
-		# Return nothing
-		return
+			# Return nothing
+			return
+		end
 	end
 end
