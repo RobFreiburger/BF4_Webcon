@@ -17,3 +17,6 @@
 
 # Foreman .env file
 .env
+
+# RBENV
+.rbenv-vars
