@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15.0', group: [:production, :staging]
@@ -51,4 +51,4 @@ gem 'bootstrap-sass', '~> 2.3.2'
 gem 'newrelic_rpm', group: [:production, :staging]
 
 # Mechanize for SA profile scraping
-gem 'mechanize', '~> 2.7.2'
+gem 'mechanize', '2.7.2'
