@@ -1,19 +1,28 @@
-# Battlefield 4 Webcon
-BF4 Webcon intends to support the [Something Awful Forums](http://forums.somethingawful.com/) Battlefield community with a companion web browser tab to [Battlelog](http://battlelog.battlefield.com). Although development will be tailored to SA's needs and humor, the majority of code will work with any community. This is meant to provide more capabilities than my [Battlefield 3 RCON PHP Scripts project](https://github.com/RobFreiburger/Battlefield-3-RCON-PHP-Scripts).
+NOTE: I am no longer maintaining this repository.
 
-## Planned Features
-* Community player authentication via [Steam OpenID](http://steamcommunity.com/dev) and SA Forums profile scraping.
-* Constant connection to servers for event listening and logging.
-* Community player whitelisting.
+# Battlefield 4 Webcon
+BF4 Webcon was intended to be a community-oriented tool for managing BF4 servers. However, BF4's launch was very problematic, even for the developer's reputation of buggy launches. It essentially destroyed my preferred community's desire to play it as well as my desire to keep developing this project.
+
+## Implemented Features
+* [Steam OpenID](http://steamcommunity.com/dev) authentication. Valve's Steam service was the closest thing to a open standard for gamers. Nearly every PC gamer used Steam or at least knew of it.
+* [Something Awful Forums](http://forums.somethingawful.com) member profile scraping. This second authentication factor was only performed once to establish a Steam account belonged to a Something Awful member. Profiles are not publically accessible, so a dummy account and cookie management were necessary for scraping.
+* Player whitelisting. After being authenticated, members could enter their [Origin](http://www.origin.com) ID. Origin was [Electronic Arts](http://www.ea.com)' competitor to Steam, but there was no API for their system.
+
+## Previously Planned Features
+* Constant connection to BF4 game servers for event listening and logging.
 * Friends of community player whitelisting and tracking (if friend is banned, community player may be banned too).
 * Bad behavior reporting via server and website.
 * Player kicking/banning via server and website by server renter, server admins, and/or community player voting.
-* PunkBuster ban tracking to prevent PB-banned players from rejoining (if possible).
+* [PunkBuster](http://www.evenbalance.com) ban tracking to prevent PB-banned players from rejoining (if possible).
 
-## Development
-BF4 Webcon is a [Ruby on Rails 4.0](http://rubyonrails.org/) app designed to be deployed via [Heroku](http://heroku.com/). This repository follows the [Git Flow development model](http://nvie.com/posts/a-successful-git-branching-model/). Development is based on the assumption that BF4's RCON protocol will be nearly identical to BF3's RCON protocol.
+## Development Process
+BF4 Webcon was a [Ruby on Rails 4.0](http://rubyonrails.org/) app designed to be deployed via [Heroku](http://heroku.com/). This repository followed the [Git Flow development model](http://nvie.com/posts/a-successful-git-branching-model/). It was assumed BF4's RCON protocol for game server querying and interaction was nearly identical to [BF3's RCON protocol](https://github.com/RobFreiburger/Battlefield-3-RCON-PHP-Scripts).
 
 ## License
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">BF4 Webcon</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/RobFreiburger/BF4_Webcon" property="cc:attributionName" rel="cc:attributionURL">Rob Freiburger</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>.
+Copyright 2013 Rob Freiburger and Paul Robins
 
-If you would like to use BF4 Webcon for commercial purposes, [please contact me](mailto:rob@robfreiburger.com).
+Battlefield 4 Webcon is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Battlefield 4 Webcon is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with Battlefield 4 Webcon. If not, see <http://www.gnu.org/licenses/>.
