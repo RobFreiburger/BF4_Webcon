@@ -32,7 +32,7 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
+gem 'byebug', group: [:development, :test]
 
 # Herkou requirement: logs sent via STDOUT
 gem 'rails_12factor', group: [:production, :staging]
